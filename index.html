@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JONES PORTFOLIO</title>
+    <link rel="stylesheet" href="dark.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="mountain.css" id="mountain-stylesheet" disabled>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="header-text" data-text="JONES PORTFOLIO">JONES PORTFOLIO</h1>
+            <p class="subtitle">Creating software, cyber and investigative projects</p>
+        </header>
+
+        <div class="audio-section">
+            <button id="audioBtn" class="audio-button">
+                <span id="btnText">Play Audio</span>
+            </button>
+            <audio id="audioPlayer" src="audio/dark.mp3"></audio>
+            <audio id="mountainAudio" src="audio/mountain.mp3"></audio>
+        </div>
+
+        <!-- <button id="themeToggle" class="theme-toggle">Toggle: Mountain Mode</button> -->
+
+        <main>
+            <section class="projects-section">
+                <h2 class="section-title"></h2>
+                <div class="projects-grid">
+                    <a href="https://github.com/AJ-I-I/Steganography-Program" target="_blank" rel="noopener noreferrer" class="project-card-link">
+                        <div class="project-card">
+                            <div class="project-content">
+                                <div class="project-icon"></div>
+                                <div class="project-overlay">
+                                    <h3 data-text="Steganography Project">Steganography Project</h3>
+                                    <p class="project-description" data-text="Image embedding and extraction">Image embedding and extraction</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="project-card">
+                        <img src="img2" alt="Project 2" class="project-image">
+                        <div class="project-overlay">
+                            <h3 data-text="#002">#002</h3>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <img src="" alt="Project 3" class="project-image">
+                        <div class="project-overlay">
+                            <h3 data-text="#003">#003</h3>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <img src="" alt="Project 4" class="project-image">
+                        <div class="project-overlay">
+                            <h3 data-text="#004">#004</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

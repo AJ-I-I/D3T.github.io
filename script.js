@@ -158,7 +158,8 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('theme', 'dark');
     }
 
-    // Modal functionality for projects two and four as they are private repos
+    // Modal function 
+    // Projects two and four as they are private repos
     const modal = document.getElementById('projectModal');
     const modalHeader = document.getElementById('modalHeader');
     const modalBody = document.getElementById('modalBody');

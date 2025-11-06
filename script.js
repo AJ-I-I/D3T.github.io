@@ -2,16 +2,82 @@ document.addEventListener('DOMContentLoaded', function() {
     const audioBtn = document.getElementById('audioBtn');
     const audioPlayer = document.getElementById('audioPlayer');
     const mountainAudio = document.getElementById('mountainAudio');
-    const cyberAudio = document.getElementById('cyberAudio');
     const btnText = document.getElementById('btnText');
     const themeToggle = document.getElementById('themeToggle');
     const darkStylesheet = document.getElementById('theme-stylesheet');
     const mountainStylesheet = document.getElementById('mountain-stylesheet');
-    const cyberStylesheet = document.getElementById('cyber-stylesheet');
+    const vhsLoader = document.getElementById('vhs-loader');
+    const typingText = document.getElementById('typing-text');
+    const contactForm = document.getElementById('contactForm');
     
     let isPlaying = false;
     let currentTheme = 'dark';
     let currentAudio = audioPlayer;
+
+    // VHS Loader
+    // Show on first visit only, NOT with theme swithc
+    const vhsAudio = document.getElementById('vhsAudio');
+    const hasVisited = localStorage.getItem('hasVisited');
+    
+    if (!hasVisited) {
+        // Play VHS audio
+        vhsAudio.play().catch(function(error) {
+            console.log('VHS audio play failed:', error);
+        });
+        
+        // Hide loader after 5 seconds and mark as visited
+        setTimeout(function() {
+            vhsAudio.pause();
+            vhsAudio.currentTime = 0;
+            vhsLoader.classList.add('hidden');
+            localStorage.setItem('hasVisited', 'true');
+            startTypingAnimation();
+        }, 5000);
+    } else {
+        // User has visited before -> skip VHS loader
+        vhsLoader.classList.add('hidden');
+        typingText.textContent = 'JONES';
+        startScrollAnimations();
+    }
+
+    // Typing animation
+    function startTypingAnimation() {
+        const text = 'JONES';
+        let index = 0;
+        typingText.textContent = '';
+        
+        function typeChar() {
+            if (index < text.length) {
+                typingText.textContent += text[index];
+                index++;
+                setTimeout(typeChar, 150);
+            } else {
+                startScrollAnimations();
+            }
+        }
+        typeChar();
+    }
+
+    // Scroll animations for sections
+    function startScrollAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        const sections = document.querySelectorAll('.about-section, .projects-section, .contact-section');
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    }
 
     // Initialize audio
     function handleAudioEnded() {
@@ -22,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     audioPlayer.addEventListener('ended', handleAudioEnded);
     mountainAudio.addEventListener('ended', handleAudioEnded);
-    cyberAudio.addEventListener('ended', handleAudioEnded);
 
     // Toggle play/pause on button click
     audioBtn.addEventListener('click', function() {
@@ -40,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (error.name === 'NotAllowedError') {
                     alert('Please allow audio playback in your browser settings.');
                 } else if (error.name === 'NotSupportedError') {
-                    const audioFile = currentTheme === 'dark' ? 'audio/dark.mp3' : currentTheme === 'mountain' ? 'audio/mountain.mp3' : 'audio/cyber.mp3';
+                    const audioFile = currentTheme === 'dark' ? 'audio/dark.mp3' : 'audio/mountain.mp3';
                     alert('Audio file not found. Please add an audio file at ' + audioFile);
                 }
             });
@@ -69,16 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    cyberAudio.addEventListener('error', function() {
-        console.log('Cyber mode audio file not found');
-        if (currentTheme === 'cyber') {
-            btnText.textContent = 'Audio File Missing';
-            audioBtn.disabled = true;
-            audioBtn.style.opacity = '0.5';
-        }
-    });
-
-    // Theme toggle function - cycles through dark -> mountain -> cyber -> dark
+    // Theme toggle function - cycles through dark -> mountain -> dark with smooth transitions
     themeToggle.addEventListener('click', function() {
         const wasPlaying = isPlaying;
         if (wasPlaying) {
@@ -87,44 +143,45 @@ document.addEventListener('DOMContentLoaded', function() {
             audioBtn.classList.remove('playing');
         }
 
-        // Cycle through themes: dark -> mountain -> cyber -> dark
-        if (currentTheme === 'dark') {
-            currentTheme = 'mountain';
-            darkStylesheet.disabled = true;
-            mountainStylesheet.disabled = false;
-            cyberStylesheet.disabled = true;
-            themeToggle.textContent = 'Cyber Mode';
-            document.body.setAttribute('data-theme', 'mountain');
-            localStorage.setItem('theme', 'mountain');
-            currentAudio = mountainAudio;
-        } else if (currentTheme === 'mountain') {
-            currentTheme = 'cyber';
-            darkStylesheet.disabled = true;
-            mountainStylesheet.disabled = true;
-            cyberStylesheet.disabled = false;
-            themeToggle.textContent = 'Dark Mode';
-            document.body.setAttribute('data-theme', 'cyber');
-            localStorage.setItem('theme', 'cyber');
-            currentAudio = cyberAudio;
-        } else {
-            currentTheme = 'dark';
-            darkStylesheet.disabled = false;
-            mountainStylesheet.disabled = true;
-            cyberStylesheet.disabled = true;
-            themeToggle.textContent = 'Mountain Mode';
-            document.body.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-            currentAudio = audioPlayer;
-        }
+        // Add fade transition
+        document.body.style.opacity = '0.7';
+        document.querySelector('.container').style.opacity = '0.7';
 
-        if (wasPlaying) {
-            currentAudio.play().catch(function(error) {
-                console.log('Audio play failed after theme switch:', error);
-            });
-            isPlaying = true;
-            audioBtn.classList.add('playing');
-            btnText.textContent = 'Pause Audio';
-        }
+        setTimeout(function() {
+            // Cycle through themes: dark -> mountain -> dark
+            if (currentTheme === 'dark') {
+                currentTheme = 'mountain';
+                darkStylesheet.disabled = true;
+                mountainStylesheet.disabled = false;
+                themeToggle.textContent = 'Dark Mode';
+                document.body.setAttribute('data-theme', 'mountain');
+                localStorage.setItem('theme', 'mountain');
+                currentAudio = mountainAudio;
+            } else {
+                currentTheme = 'dark';
+                darkStylesheet.disabled = false;
+                mountainStylesheet.disabled = true;
+                themeToggle.textContent = 'Mountain Mode';
+                document.body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                currentAudio = audioPlayer;
+            }
+
+            // Fade back in
+            setTimeout(function() {
+                document.body.style.opacity = '1';
+                document.querySelector('.container').style.opacity = '1';
+            }, 100);
+
+            if (wasPlaying) {
+                currentAudio.play().catch(function(error) {
+                    console.log('Audio play failed after theme switch:', error);
+                });
+                isPlaying = true;
+                audioBtn.classList.add('playing');
+                btnText.textContent = 'Pause Audio';
+            }
+        }, 200);
     });
 
     // Load saved theme
@@ -134,28 +191,28 @@ document.addEventListener('DOMContentLoaded', function() {
         currentTheme = 'mountain';
         darkStylesheet.disabled = true;
         mountainStylesheet.disabled = false;
-        cyberStylesheet.disabled = true;
-        themeToggle.textContent = 'Cyber Mode';
+        themeToggle.textContent = 'Dark Mode';
         document.body.setAttribute('data-theme', 'mountain');
         currentAudio = mountainAudio;
-    } else if (savedTheme === 'cyber') {
-        currentTheme = 'cyber';
-        darkStylesheet.disabled = true;
-        mountainStylesheet.disabled = true;
-        cyberStylesheet.disabled = false;
-        themeToggle.textContent = 'Dark Mode';
-        document.body.setAttribute('data-theme', 'cyber');
-        currentAudio = cyberAudio;
     } else {
         // Default to dark mode
         currentTheme = 'dark';
         darkStylesheet.disabled = false;
         mountainStylesheet.disabled = true;
-        cyberStylesheet.disabled = true;
         themeToggle.textContent = 'Mountain Mode';
         document.body.setAttribute('data-theme', 'dark');
         currentAudio = audioPlayer;
         localStorage.setItem('theme', 'dark');
+    }
+
+    // If user has visited before, show sections immediately
+    if (hasVisited) {
+        setTimeout(function() {
+            const sections = document.querySelectorAll('.about-section, .projects-section, .contact-section');
+            sections.forEach(section => {
+                section.classList.add('visible');
+            });
+        }, 100);
     }
 
     // Modal function 
@@ -197,6 +254,26 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.target === modal) {
             modal.style.display = 'none';
         }
+    });
+
+    // Contact form
+    // WIP
+    // NOT FUNCTIONAL
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const formData = {
+            name: document.getElementById('contactName').value,
+            email: document.getElementById('contactEmail').value,
+            message: document.getElementById('contactMessage').value
+        };
+
+        // Here you would typically send the form data to a server
+        // For now, we'll just show an alert
+        alert('Message sent! (This is a demo - form submission would be handled by a backend service)');
+        
+        // Reset form
+        contactForm.reset();
     });
 });
 

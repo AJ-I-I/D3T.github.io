@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (wasPlaying) {
                 currentAudio.play().catch(function(error) {
-                    console.log('Audio play failed after theme switch:', error);
+                    console.log('Audio failed to play', error);
                 });
                 isPlaying = true;
                 audioBtn.classList.add('playing');
@@ -226,11 +226,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const projectDetails = {
         2: {
             title: 'D4T',
-            description: 'D4T is an open-source intelligence and digital forensic tool. Its backend components, image and data forensics modules are written in RUST, with web scraping scripts for social media written in GO and Python. The front end utilizes JS, HTML, CSS, the AngularJS framework, and WebAssembly. Additional Modules: OpenLayers map that plots relevant areas based on search, timeline constructor, RUST data search (searches and webscrapes csv, json files full of links to local, state, federal courts, with jail/prison rosters, missing persons data)'
+            description: 'D4T is an open-source intelligence and digital forensic tool. Its backend components, image and data forensics modules are written in RUST, with web scraping scripts for social media written in GO and Python. The front end utilizes JS, HTML, CSS, the AngularJS framework, and WebAssembly. Additional Modules: OpenLayers map that plots relevant areas based on search, timeline constructor, RUST data search (searches and webscrapes csv, json files full of links to local, state, federal courts, with jail/prison rosters, missing persons data). *This is a private project repo. Source code is not publicly available.*'
         },
         4: {
             title: 'Project #004',
-            description: 'This is a private project repo. Source code is not publicly available..'
+            description: '*This is a private project repo. Source code is not publicly available.*'
         }
     };
 

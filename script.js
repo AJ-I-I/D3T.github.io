@@ -17,14 +17,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const vhsAudio = document.getElementById('vhsAudio');
     const hasVisited = localStorage.getItem('hasVisited');
     
-    vhsAudio.play().catch(function(error) {
-        console.log('VHS audio play failed:', error);
-    });
+    // Attempt to play VHS audio
+    // Catch errors silently as browsers block auto-play
+    let vhsAudioPlayed = false;
+    function tryPlayVHSAudio() {
+        if (!vhsAudioPlayed) {
+            vhsAudio.play().then(function() {
+                vhsAudioPlayed = true;
+            }).catch(function(error) {
+                // Silently fail
+                // browser blocks auto-play without user interaction
+                console.log('VHS audio play failed:', error);
+            });
+        }
+    }
+    
+    // Try to play on any user interaction
+    document.addEventListener('click', tryPlayVHSAudio, { once: true });
+    document.addEventListener('keydown', tryPlayVHSAudio, { once: true });
+    document.addEventListener('touchstart', tryPlayVHSAudio, { once: true });
     
     if (!hasVisited) {
         setTimeout(function() {
-            vhsAudio.pause();
-            vhsAudio.currentTime = 0;
+            if (vhsAudioPlayed) {
+                vhsAudio.pause();
+                vhsAudio.currentTime = 0;
+            }
             vhsLoader.classList.add('hidden');
             localStorage.setItem('hasVisited', 'true');
             startTypingAnimation();
@@ -34,8 +52,10 @@ document.addEventListener('DOMContentLoaded', function() {
         typingText.textContent = 'JONES';
         startScrollAnimations();
         setTimeout(function() {
-            vhsAudio.pause();
-            vhsAudio.currentTime = 0;
+            if (vhsAudioPlayed) {
+                vhsAudio.pause();
+                vhsAudio.currentTime = 0;
+            }
         }, 5000);
     }
 
@@ -258,20 +278,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Contact form
     // WIP
     // NOT FUNCTIONAL
-    contactForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        const formData = {
-            name: document.getElementById('contactName').value,
-            email: document.getElementById('contactEmail').value,
-            message: document.getElementById('contactMessage').value
-        };
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('contactName').value,
+                email: document.getElementById('contactEmail').value,
+                message: document.getElementById('contactMessage').value
+            };
 
-        // Here you would typically send the form data to a server
-        alert('Message sent! (This is a demo - form submission would be handled by a backend service)');
-        
-        // Reset form
-        contactForm.reset();
-    });
+            // Here you would typically send the form data to a server
+            alert('Message sent! (This is a demo - form submission would be handled by a backend service)');
+            
+            // Reset form
+            contactForm.reset();
+        });
+    }
 });
 

@@ -14,18 +14,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentTheme = 'dark';
     let currentAudio = audioPlayer;
 
-    // VHS Loader
-    // Show on first visit only, NOT with theme swithc
     const vhsAudio = document.getElementById('vhsAudio');
     const hasVisited = localStorage.getItem('hasVisited');
     
+    vhsAudio.play().catch(function(error) {
+        console.log('VHS audio play failed:', error);
+    });
+    
     if (!hasVisited) {
-        // Play VHS audio
-        vhsAudio.play().catch(function(error) {
-            console.log('VHS audio play failed:', error);
-        });
-        
-        // Hide loader after 5 seconds and mark as visited
         setTimeout(function() {
             vhsAudio.pause();
             vhsAudio.currentTime = 0;
@@ -34,10 +30,13 @@ document.addEventListener('DOMContentLoaded', function() {
             startTypingAnimation();
         }, 5000);
     } else {
-        // User has visited before -> skip VHS loader
         vhsLoader.classList.add('hidden');
         typingText.textContent = 'JONES';
         startScrollAnimations();
+        setTimeout(function() {
+            vhsAudio.pause();
+            vhsAudio.currentTime = 0;
+        }, 5000);
     }
 
     // Typing animation
@@ -269,7 +268,6 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // Here you would typically send the form data to a server
-        // For now, we'll just show an alert
         alert('Message sent! (This is a demo - form submission would be handled by a backend service)');
         
         // Reset form

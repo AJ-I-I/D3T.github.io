@@ -26,7 +26,7 @@
 }
 
 body {
-    font-family: 'Merriweather', serif;
+    font-family: 'Courier New', Courier, monospace;
     background-color: var(--darker-forest-green);
     color: var(--text-light);
     min-height: 100vh;
@@ -125,7 +125,7 @@ header::after {
 }
 
 .header-text {
-    font-family: 'Cinzel', serif;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 5rem;
     font-weight: 700;
     color: var(--text-light);
@@ -320,7 +320,7 @@ main {
 }
 
 .section-title {
-    font-family: 'Cinzel', serif;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 2.5rem;
     color: var(--text-light);
     text-align: center;
@@ -454,7 +454,7 @@ main {
 }
 
 .project-overlay h3 {
-    font-family: 'Cinzel', serif;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 1.5rem;
     color: var(--text-light);
     text-transform: uppercase;
@@ -710,4 +710,76 @@ body::after {
         padding: 0.6rem 1rem;
         font-size: 0.8rem;
     }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: 
+        repeating-linear-gradient(90deg, transparent 0px, transparent 1px, rgba(5, 26, 15, 0.2) 1px, rgba(5, 26, 15, 0.2) 2px),
+        repeating-linear-gradient(0deg, transparent 0px, transparent 3px, rgba(5, 26, 15, 0.18) 3px, rgba(5, 26, 15, 0.18) 4px),
+        linear-gradient(135deg, var(--darker-forest-green) 0%, var(--black) 50%, var(--darker-forest-green) 100%);
+    margin: 5% auto;
+    padding: 2rem;
+    border: 3px double var(--accent-silver);
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.95), inset 0 0 40px rgba(5, 26, 15, 0.4), 0 0 30px rgba(192, 192, 192, 0.15);
+    position: relative;
+    animation: glitch-card 500s infinite;
+}
+
+.modal-header {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 0px var(--black), 3px 3px 8px rgba(0, 0, 0, 0.9), 0 0 15px rgba(192, 192, 192, 0.15);
+    border-bottom: 2px double var(--accent-silver);
+    padding-bottom: 1rem;
+}
+
+.modal-body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.modal-close {
+    color: var(--accent-silver);
+    float: right;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: var(--silver-bright);
+    text-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+    transform: scale(1.1);
+}
+
+.project-card.modal-trigger {
+    cursor: pointer;
 }

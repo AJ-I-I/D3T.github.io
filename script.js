@@ -15,49 +15,45 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentAudio = audioPlayer;
 
     const vhsAudio = document.getElementById('vhsAudio');
-    const hasVisited = localStorage.getItem('hasVisited');
     
-    // Attempt to play VHS audio
-    // Catch errors silently as browsers block auto-play
+    // Always show VHS loader on page load/refresh
+    vhsLoader.classList.remove('hidden');
+    
+    // Reset audio to beginning
+    vhsAudio.currentTime = 0;
+    
+    // Attempt to play VHS audio on page load
     let vhsAudioPlayed = false;
     function tryPlayVHSAudio() {
-        if (!vhsAudioPlayed) {
+        if (!vhsAudioPlayed && vhsAudio) {
             vhsAudio.play().then(function() {
                 vhsAudioPlayed = true;
             }).catch(function(error) {
                 // Silently fail
-                // browser blocks auto-play without user interaction
-                console.log('VHS audio play failed:', error);
+                // Browser blocks auto-play without user interaction
+                console.log('[!] ERROR: VHS audio play failed ', error.message, '[!]');
             });
         }
     }
     
-    // Try to play on any user interaction
+    // Try to play immediately (may work if user has interacted with site before)
+    tryPlayVHSAudio();
+    
+    // Also try to play on any user interaction as fallback
     document.addEventListener('click', tryPlayVHSAudio, { once: true });
     document.addEventListener('keydown', tryPlayVHSAudio, { once: true });
     document.addEventListener('touchstart', tryPlayVHSAudio, { once: true });
     
-    if (!hasVisited) {
-        setTimeout(function() {
-            if (vhsAudioPlayed) {
-                vhsAudio.pause();
-                vhsAudio.currentTime = 0;
-            }
-            vhsLoader.classList.add('hidden');
-            localStorage.setItem('hasVisited', 'true');
-            startTypingAnimation();
-        }, 5000);
-    } else {
+    // Always run the VHS startup sequence
+    // Hide loader and start typing animation after 10 seconds
+    setTimeout(function() {
+        if (vhsAudioPlayed && vhsAudio) {
+            vhsAudio.pause();
+            vhsAudio.currentTime = 0;
+        }
         vhsLoader.classList.add('hidden');
-        typingText.textContent = 'JONES';
-        startScrollAnimations();
-        setTimeout(function() {
-            if (vhsAudioPlayed) {
-                vhsAudio.pause();
-                vhsAudio.currentTime = 0;
-            }
-        }, 5000);
-    }
+        startTypingAnimation();
+    }, 10000);
 
     // Typing animation
     function startTypingAnimation() {
@@ -224,15 +220,8 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('theme', 'dark');
     }
 
-    // If user has visited before, show sections immediately
-    if (hasVisited) {
-        setTimeout(function() {
-            const sections = document.querySelectorAll('.about-section, .projects-section, .contact-section');
-            sections.forEach(section => {
-                section.classList.add('visible');
-            });
-        }, 100);
-    }
+    // Initialize scroll animations after VHS sequence completes
+    // Sections will become visible when scrolled into view
 
     // Modal function 
     // Projects two and four as they are private repos

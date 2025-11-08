@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('touchstart', tryPlayVHSAudio, { once: true });
     
     // Always run the VHS startup sequence
-    // Hide loader and start typing animation after 10 seconds
+    // Hide loader and start typing animation after a bit over a second
     setTimeout(function() {
         if (vhsAudioPlayed && vhsAudio) {
             vhsAudio.pause();
@@ -53,11 +53,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         vhsLoader.classList.add('hidden');
         startTypingAnimation();
-    }, 10000);
+    }, 1650);
 
     // Typing animation
     function startTypingAnimation() {
-        const text = 'JONES';
+        const text = 'HARRY JONES';
         let index = 0;
         typingText.textContent = '';
         

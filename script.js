@@ -237,8 +237,8 @@ document.addEventListener('DOMContentLoaded', function() {
             description: 'D4T is an open-source intelligence and digital forensic tool. Its backend components, image and data forensics modules are written in RUST, with web scraping scripts for social media written in GO and Python. The front end utilizes JS, HTML, CSS, the AngularJS framework, and WebAssembly. Additional Modules: OpenLayers map that plots relevant areas based on search, timeline constructor, RUST data search (searches and webscrapes csv, json files full of links to local, state, federal courts, with jail/prison rosters, missing persons data). *This is a private project repo. Source code is not publicly available.*'
         },
         4: {
-            title: 'Project #004',
-            description: '*This is a private project repo. Source code is not publicly available.*'
+            title: 'RAD-W',
+            description: 'Live-coding tool/DAW project that works directly in the terminal. Built in RUST, makes audio programatically and allows for samples to be uploaded and used in sessions.*This is a private project repo. Source code is not publicly available.*'
         }
     };
 

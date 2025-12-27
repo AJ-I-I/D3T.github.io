@@ -725,6 +725,10 @@ body::after {
     backdrop-filter: blur(5px);
 }
 
+.modal:target {
+    display: block;
+}
+
 .modal-content {
     background: 
         repeating-linear-gradient(90deg, transparent 0px, transparent 1px, rgba(5, 26, 15, 0.2) 1px, rgba(5, 26, 15, 0.2) 2px),
@@ -771,6 +775,7 @@ body::after {
     position: absolute;
     top: 1rem;
     right: 1rem;
+    text-decoration: none;
 }
 
 .modal-close:hover,
@@ -780,9 +785,6 @@ body::after {
     transform: scale(1.1);
 }
 
-.project-card.modal-trigger {
-    cursor: pointer;
-}
 
 .vhs-loader {
     position: fixed;

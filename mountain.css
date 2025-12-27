@@ -426,6 +426,10 @@ main {
     backdrop-filter: blur(5px);
 }
 
+.modal:target {
+    display: block;
+}
+
 .modal-content {
     background: linear-gradient(135deg, var(--beige-bg) 0%, var(--beige-dim) 100%);
     margin: 10% auto;
@@ -486,6 +490,7 @@ main {
     top: 1rem;
     right: 1rem;
     z-index: 10;
+    text-decoration: none;
 }
 
 .modal-close:hover,
@@ -495,9 +500,6 @@ main {
     transform: scale(1.1);
 }
 
-.project-card.modal-trigger {
-    cursor: pointer;
-}
 
 @media (max-width: 768px) {
     .header-text {

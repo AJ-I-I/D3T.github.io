@@ -223,47 +223,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize scroll animations after VHS sequence completes
     // Sections will become visible when scrolled into view
 
-    // Modal function 
-    // Projects two and four as they are private repos
-    const modal = document.getElementById('projectModal');
-    const modalHeader = document.getElementById('modalHeader');
-    const modalBody = document.getElementById('modalBody');
-    const modalClose = document.querySelector('.modal-close');
-    const modalTriggers = document.querySelectorAll('.modal-trigger');
-
-    const projectDetails = {
-        2: {
-            title: 'D4T',
-            description: 'D4T is an open-source intelligence and digital forensic tool. Its backend components, image and data forensics modules are written in RUST, with web scraping scripts for social media written in GO and Python. The front end utilizes JS, HTML, CSS, the AngularJS framework, and WebAssembly. Additional Modules: OpenLayers map that plots relevant areas based on search, timeline constructor, RUST data search (searches and webscrapes csv, json files full of links to local, state, federal courts, with jail/prison rosters, missing persons data). *This is a private project repo. Source code is not publicly available.*'
-        },
-        4: {
-            title: 'RAD-W',
-            description: 'Live-coding tool/DAW project that works directly in the terminal. Built in RUST, makes audio programatically and allows for samples to be uploaded and used in sessions.*This is a private project repo. Source code is not publicly available.*'
-        }
-    };
-
-    modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function() {
-            const projectNum = this.getAttribute('data-project');
-            const details = projectDetails[projectNum];
-            if (details) {
-                modalHeader.textContent = details.title;
-                modalBody.textContent = details.description;
-                modal.style.display = 'block';
-            }
-        });
-    });
-
-    modalClose.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-
     // Contact form
     // WIP
     // NOT FUNCTIONAL
